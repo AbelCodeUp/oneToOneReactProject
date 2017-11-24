@@ -1,0 +1,286 @@
+.bxk_header{
+    height: 1.33rem;
+    width: 100%;
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: .03rem solid #E8E8E8;
+    z-index: 1;
+}
+.bxk_header ul{
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+.bxk_header ul li{
+    height: 100%;
+    text-align: center;
+    line-height: 1.33rem;
+    width: 50%;
+}
+.bxk_header ul li a{
+    width: 100%;
+    font-size: .43rem;
+    position: relative;
+    display: block;
+    
+}
+.bxk_header ul li a.active{
+    color: #DC2828;
+}
+.bxk_header ul li a.active::after{
+    content: '';
+    position: absolute;
+    width: 2.13rem;
+    height: .08rem;
+    background: #DC2828;
+    border-radius: 2.67rem;
+    position: absolute;
+    bottom: -0.03rem;
+    left: 50%;
+    margin-left: -1.065rem;
+}
+.bxk_content{
+    margin-top: 1.6rem;
+    background: #fff;
+}
+.bxk_content .bxk_lesson_teacher_box{
+    overflow: hidden;
+    border-bottom: .03rem solid #E8E8E8;
+}
+.bxk_content .bxk_lesson_teacher_box .bxk_lesson_t_timebox{
+    height: 1.31rem;
+    display: flex;
+    justify-content: space-between;
+    border-top: .03rem solid #E8E8E8;
+    border-bottom: .03rem solid #E8E8E8;
+    font-size: .43rem;
+}
+.bxk_content .bxk_lesson_teacher_box .bxk_lesson_t_timebox .bxk_lesson_time{
+    line-height: 1.32rem;
+    padding-left: .32rem;
+}
+.bxk_content .bxk_lesson_teacher_box .bxk_lesson_teacher_item{
+    border-bottom: 1px solid #E8E8E8;
+    height: 2.13rem;
+
+}
+.bxk_content .bxk_lesson_teacher_box .bxk_lesson_teacher_item:last-of-type(1){
+    border-bottom: none!important;
+}
+.bxk_content .bxk_lesson_teacher_box .bxk_lesson_teacher_item .bxk_l_teacher_itembox{
+    overflow: hidden;
+    height: 100%;
+    padding-top: 0.23rem;
+    box-sizing: border-box;
+}
+.bxk_l_teacher_imgbox{
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 1px solid #E8E8E8;
+    border-radius: 50%;
+}
+.bxk_l_teacher_name{
+    font-size: .43rem;
+    color: #4C4343;
+}
+.bxk_l_teacher_guanzhu_buttion{
+    border: 1px solid #f7802d;
+    text-align: center;
+    height: .53rem;
+    color:#f7802d;
+    line-height: .53rem;
+    width: 1.2rem;
+    margin-top: 0.1rem;
+    padding: 0
+}
+.bxk_guanzhu_active{
+    border: 1px solid #adadad;
+    color:#b5b5b5;
+}
+.bxk_l_teacher_msg{
+    padding-top: 0.19rem;
+    padding-left: 0.19rem;
+}
+.bxk_l_teacher_yuyue{
+    padding-top: 0.4rem;
+    padding-right: 0.4rem;
+}
+.bxk_l_teacher_yuyue a{
+    display: block;
+    border: .03rem solid #DC2828;
+    border-radius: 2.67rem;
+    text-align: center;
+    width: 1.97rem;
+    height: .77rem;
+    line-height: .77rem;
+    color:#DC2828;
+}
+/* 预约时间 */
+.bxk_yuyue_art_box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    z-index: 2;
+    padding: .27rem;
+    padding-top: 0.7rem;
+    box-sizing: border-box;
+}
+
+.bxk_yuyue_art_close{
+    width: .85rem;
+    height: .85rem;
+    position: absolute;
+    right: 0.27rem;
+    top: 0.27rem;
+    cursor: pointer;
+}
+.bxk_yuyue_art_close img{
+    width: 100%;
+}
+.bxk_yuyue_art_content_date .bxk_yuyue_art_content_am{
+    text-align: center;
+}
+.bxk_yuyue_art_content_date .bxk_yuyue_art_content_am img{
+    width: 80%;
+}
+.bxk_yuyue_art_header{
+    font-size: .43rem;
+    color: #4A4A4A;
+    border-bottom: .03rem dashed #9B9B9B;
+    height: .87rem;
+    line-height: .87rem;
+}
+.bxk_yuyue_art_header_date{
+    overflow: hidden;
+    padding: .4rem 0 0.2rem 0;
+    width: 100%;
+}
+.swiper-container{
+    width: 100%;
+    height: 1.85rem;
+}
+.swiper-slide{
+    width: 100%;
+}
+.bxk_yuyue_art_header_date ul{
+    width: 100%;
+    overflow: hidden;
+    padding: 0 0.13rem;
+    display: flex;
+    justify-content: space-between;
+}
+.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+    bottom: 0.1rem!important;
+}
+.bxk_yuyue_art_header_date ul li{
+    width: 1.15rem;
+    height: 1.15rem;
+    border: .03rem solid #DC2828;
+    border-radius: .08rem;
+    color: #DC2828;
+    font-size: .35rem;
+    text-align: center;
+    padding-top: 0.09rem;
+    margin-right: 0.194rem;
+}
+.bxk_yuyue_art_header_date ul li:nth-last-of-type(1){
+    margin-right: 0;
+}
+.bxk_yuyue_art_header_date ul li.active{
+    background: #DC2828;
+    color: #fff;
+}
+.bxk_yuyue_art_content_am{
+    padding: 0.5rem 0;
+}
+.bxk_yuyue_art_content_am_box ul{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+.bxk_yuyue_art_content_am_box ul li{
+    width: 1.6rem;
+    height: .83rem;
+    border: .03rem solid #DC2828;
+    border-radius: .08rem;
+    text-align: center;
+    line-height: .83rem;
+    color:#DC2828;
+    margin-right: .355rem;
+    margin-bottom: 0.355rem;
+    position: relative;
+}
+.bxk_yuyue_art_content_am_box ul li:nth-of-type(5n){
+    margin-right: 0;
+}
+.bxk_yuyue_art_content_am_box ul li.active{
+    background: #DC2828;
+    color:#fff;
+}
+.bxk_yuyue_art_content_am_box ul li.noActive{
+    border-color: #9B9B9B;
+    color: #9B9B9B;
+    pointer-events: none;
+}
+.bxk_yuyue_art_content_am_box ul li.yiActive{
+    border-color: #9B9B9B;
+    color: #9B9B9B;
+    pointer-events: none;
+}
+.bxk_yuyue_art_content_am_box ul li.yiActive::before{
+    content: '';
+    width: .13rem;
+    height: .13rem;
+    background: #DC2828;
+    border-radius: 50%;
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+}
+.bxk_yuyue_art_submit{
+    background: #FFFFFF;
+    border:.03rem solid #DC2828;
+    border-radius: 2.67rem;
+    width: 4rem;
+    height: .96rem;
+    text-align: center;
+    line-height: .96rem;
+    margin: 0 auto;
+    font-size: .43rem;
+    color: #DC2828;
+    letter-spacing: .03rem;
+}
+/* 老师详情 */
+.bxk_teacher_info_header{
+    background: #FFFFFF;
+    border-bottom: .03rem solid #E8E8E8;
+    height: 2.13rem;
+    overflow: hidden;
+    padding: 0.25rem 0.3rem 0.3rem 0.3rem;
+}
+.bxk_tch_info_msg{
+    padding-top: 0.16rem;
+    margin-left: 0.4rem;
+}
+.bxk_tch_sex{
+    width: .61rem;
+    height: .56rem;
+}
+.bxk_tch_sex img{
+    width: 100%;
+}
+.bxk_tch_guanzhu{
+    margin-top: 0.5rem;
+}
+.bxk_teacher_info_content{
+    position: relative;
+    background: #fff;
+    padding: .27rem;
+    margin-top: 0.3rem;
+    box-sizing: border-box;
+}

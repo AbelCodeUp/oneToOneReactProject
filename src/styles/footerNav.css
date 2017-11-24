@@ -1,0 +1,63 @@
+.zjb_footerNav{
+    width: 100%;
+    overflow: hidden;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+}
+.zjb_footerNav>li{
+    margin: .13rem 0;
+}
+.zjb_footerNav>li>a{
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+.zjb_footerNav>li>a>div{
+    margin: .06rem auto;
+    text-align: center;
+    font-size: .32rem;
+    letter-spacing: 0rem;
+}
+.zjb_footerNav>li>a.active>div.color{
+    color: #DC2828;
+}
+.zjb_footerNav>li>a>.footerNavImg1{
+    width: .57rem;
+    height: .56rem;
+    background: url("../images/zjb_yueke.png") no-repeat;
+    background-size: contain;
+}
+.zjb_footerNav>li>a.active>.footerNavImg1_1{
+    width: .57rem;
+    height: .56rem;
+    background: url("../images/zjb_yueke2.png") no-repeat;
+    background-size: contain;
+}
+.zjb_footerNav>li>a>.footerNavImg2{
+    width: .57rem;
+    height: .56rem;
+    background: url("../images/zjb_kebiao.png") no-repeat;
+    background-size: contain;
+}
+.zjb_footerNav>li>a.active>.footerNavImg2_1{
+    width: .57rem;
+    height: .56rem;
+    background: url("../images/zjb_kebiao2.png") no-repeat;
+    background-size: contain;
+}
+.zjb_footerNav>li>a>.footerNavImg3{
+    width: .49rem;
+    height: .56rem;
+    background: url("../images/zjb_person.png") no-repeat;
+    background-size: contain;
+}
+.zjb_footerNav>li>a.active>.footerNavImg3_1{
+    width: .49rem;
+    height: .56rem;
+    background: url("../images/zjb_person2.png") no-repeat;
+    background-size: contain;
+}
