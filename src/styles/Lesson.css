@@ -177,6 +177,9 @@
 .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
     bottom: 0.1rem!important;
 }
+._slide{
+    width: 100%;
+}
 .bxk_yuyue_art_header_date ul li{
     width: 1.15rem;
     height: 1.15rem;

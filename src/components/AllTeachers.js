@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import ServerUrl from '../config/server';
 import Swiper from 'swiper';
-require('../common/swiper/swiper-3.4.2.min.css');
+require('../common/swiper/swiper.min.css');
 
 
 
@@ -25,23 +25,27 @@ export default class ALlTeachers extends React.Component {
         this.setState({
             isShowOrder: false
         })
+
     }
 
     openOrder = () => { //打开约课窗口
         this.setState({
             isShowOrder: true
         })
+
+        setTimeout(() => {
+            // 初始化swiper
+            new Swiper('.swiper-container', {
+                pagination: {
+                    el: '.swiper-pagination',
+                }
+            });
+        })
     }
 
     componentDidMount() {
-        // 初始化swiper
-        new Swiper('.swiper-container', {
-            pagination: {
-                el: '.swiper-pagination',
-            }
-        });
-        
-       
+
+
         //获取两周的时间
         let nowDate = new Date();
         let dataArrs = [];
