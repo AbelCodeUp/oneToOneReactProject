@@ -241,7 +241,7 @@ export default class ALlTeachers extends React.Component {
     this.setState({
         timeDatas,
         activeDate: time,
-        onActiveWeek: week
+        activeWeek: week
       });
 
   }
@@ -351,6 +351,8 @@ export default class ALlTeachers extends React.Component {
   render() {
     const {timeDatas, isShowOrder, timeArrs , activeDate , activeTime , activeWeek} = this.state;
 
+    let aData = `${activeDate.split('-')[1]}-${activeDate.split('-')[2]}`
+
     console.log(timeArrs);
     console.log(timeDatas);
     let ShowOrder = {
@@ -359,7 +361,9 @@ export default class ALlTeachers extends React.Component {
         : 'none'
     };
 
-    const {onActiveTime, openOrder, onActiveDate, onSubmitDate, isToDay} = this;
+    const {onActiveTime, openOrder, onActiveDate ,onSubmitDate, isToDay} = this;
+
+
 
     return (<div>
       <div className="bxk_content">
@@ -368,7 +372,7 @@ export default class ALlTeachers extends React.Component {
             <div className="bxk_lesson_time">
               {
 
-                `${ isToDay ? '今日': activeDate } (${activeWeek}) ${activeTime}`
+                `${ isToDay(activeDate) ? '今日': aData } ( ${activeWeek} ) ${activeTime}`
 
               }
 
