@@ -13,7 +13,8 @@ export default class IndexMain extends React.Component {
         }
     }
     componentDidMount() {
-        console.log(axios());
+      // isCanActive : false, // 是否两小时后
+      // isHaveLesson : false, //当前时间是否有课
     }
 
     render() {
@@ -26,7 +27,7 @@ export default class IndexMain extends React.Component {
                 </div>
                 <ul className="zjb_footerNav">
                     <li>
-                        <Link to="/orderLesson" activeClassName="active">
+                        <Link to="/" activeClassName="active" onlyActiveOnIndex={true} >
                             <div className="footerNavImg1_1 footerNavImg1" />
                             <div className="color">约课</div>
                         </Link>

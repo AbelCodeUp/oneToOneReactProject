@@ -24,7 +24,7 @@
     font-size: .43rem;
     position: relative;
     display: block;
-    
+
 }
 .bxk_header ul li a.active{
     color: #DC2828;
@@ -209,11 +209,14 @@
 .bxk_yuyue_art_content_am_box ul li{
     width: 1.6rem;
     height: .83rem;
-    border: .03rem solid #DC2828;
+    border: .03rem solid #9B9B9B;
     border-radius: .08rem;
+
+    color: #9B9B9B;
+    pointer-events: none;
+
     text-align: center;
     line-height: .83rem;
-    color:#DC2828;
     margin-right: .355rem;
     margin-bottom: 0.355rem;
     position: relative;
@@ -221,19 +224,19 @@
 .bxk_yuyue_art_content_am_box ul li:nth-of-type(5n){
     margin-right: 0;
 }
+.bxk_yuyue_art_content_am_box ul li.canActive{
+    border-color: #DC2828;
+    color: #DC2828;
+    pointer-events: auto!important;
+}
 .bxk_yuyue_art_content_am_box ul li.active{
     background: #DC2828;
     color:#fff;
 }
-.bxk_yuyue_art_content_am_box ul li.noActive{
-    border-color: #9B9B9B;
-    color: #9B9B9B;
-    pointer-events: none;
-}
 .bxk_yuyue_art_content_am_box ul li.yiActive{
     border-color: #9B9B9B;
     color: #9B9B9B;
-    pointer-events: none;
+    pointer-events: none!important;
 }
 .bxk_yuyue_art_content_am_box ul li.yiActive::before{
     content: '';
@@ -257,6 +260,7 @@
     font-size: .43rem;
     color: #DC2828;
     letter-spacing: .03rem;
+    margin-top: 0.4rem;
 }
 /* 老师详情 */
 .bxk_teacher_info_header{

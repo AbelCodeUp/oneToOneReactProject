@@ -13,8 +13,11 @@ import Main from './Main';
 import OrderLesson from './OrderLesson';
 import LessonList from './LessonList';
 import Person from './Person';
+import LessonMainIndex from './LessonMainIndex';
+
 import ALlTeachers  from './AllTeachers';
 import LessonMain from './LessonMain';
+
 
 
 
@@ -28,7 +31,7 @@ export default class AppComponent extends React.Component {
                     {/* <Route path="Main" onEnter={({params}, replace) => replace('/Login')} component={Main} />
 
                     <Route path="Login" component={Login} /> */}
-                    <IndexRoute component={LessonMain} />
+                    <IndexRoute component={LessonMainIndex} />
                     <Route path="orderLesson" component={LessonMain}>
                         <IndexRoute component={ALlTeachers} />
                         <Route path="teachers" component={ALlTeachers} />
@@ -37,7 +40,7 @@ export default class AppComponent extends React.Component {
                     <Route path="person" component={Person} />
                 </Route>
                 <Route path="/Main" component={IndexMain}>
-                    
+
                 </Route>
             </Router>
         )

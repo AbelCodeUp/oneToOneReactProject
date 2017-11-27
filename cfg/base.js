@@ -23,6 +23,7 @@ module.exports = {
     contentBase: './src/',
     historyApiFallback: true,
     hot: true,
+    open: true, //自动打开浏览器
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: false

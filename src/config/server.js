@@ -1,8 +1,9 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://api.example.com';
-axios.defaults.headers.common['Authorization'] = 'Authorization';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = 'http://testapi.gogo-talk.com/api/';
+
+const serverUrl = location.host;
 
 export default {
-    // ajax 备注
+    // ajax 备注‘’
+    GetTch_Lesson: 'Demands/GetTch_Lesson'
 }
