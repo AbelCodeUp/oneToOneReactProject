@@ -29,6 +29,16 @@ export default class ALlTeachers extends React.Component {
       activeWeek: this.dataArrs()[0][0].weekStr
     }
 
+    axios.get(ServerUrl.GetLessonRecords, {
+      params: {
+        status: 1,
+        pageIndex: 0
+      }
+    })
+      .then((res) =>{
+        console.log(res);
+      })
+
     this.getLessonTime(this.dataArrs()[0][0].time);
 
 
