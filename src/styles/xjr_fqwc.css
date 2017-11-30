@@ -1,0 +1,168 @@
+/* 分期完成，包含总样式 */
+.xjr_box{
+    background: #f5f5f5;
+    border-bottom: .03rem solid #E8E8E8;
+    border-top: .03rem solid #E8E8E8;
+    padding: .27rem 0 0 0;
+    overflow: hidden;
+}
+.xjr_mine_main{
+    padding: 0 .32rem 0 .32rem;
+    background: #fff;
+    font-family: PingFangSC-Regular;
+    letter-spacing: 0;
+    position: relative;
+}
+.xjr_main_box{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.xjr_mine_ddbh{
+    font-size: .32rem;
+    line-height: .44rem;
+    color: #0D0101;
+    position: relative;
+    margin-left: .27rem;
+    padding-top: .27rem
+}
+.xjr_mine_gang{
+    width:.08rem;
+    height: .43rem;
+    background: #DC2828;
+    border-radius: 2.67rem;
+    position: absolute;
+    left:-.27rem;
+
+}
+.xjr_mine_spmc{
+    font-size: .35rem;
+    color: #0D0101;;
+    letter-spacing: 0;
+    line-height: .53rem;
+    padding-top: .24rem;
+}
+.xjr_mine_fenqi{
+    padding-top: .27rem;
+    text-align: right;
+    font-size: .32rem;
+    color: #9B9B9B;
+}
+.xjr_main_box1{
+    padding-top: .13rem;
+}
+.xjr_mine_keshi{
+    line-height: .49rem;
+    font-size: .35rem;
+    color: #DC2828;
+}
+.xjr_mine_yxq{
+    font-size: .29rem;
+    line-height: .4rem;
+    color: #777474;
+}
+.xjr_main_box2{
+    padding-top: .39rem;
+    font-size: .37rem;
+    color: #FF6600;
+    line-height: .53rem;
+}
+.xjr_main_box3{
+    padding-top: .16rem;
+}
+.xjr_mine_sf{
+    font-size: .35rem;
+    color: #4A4A4A;
+}
+.xjr_mine_sfsj{
+    font-size: .29rem;
+    color: #777474;
+}
+.xjr_main_box4{
+    padding-top: .27rem;
+    padding-bottom: .99rem;
+    font-size: .35rem;
+    color: #4A4A4A;
+}
+.xjr_main_box41{
+    padding-bottom:.4rem;
+    
+}
+.xjr_main_box42{
+    padding-bottom:0;
+    
+}
+
+/* 分期支付的样式 */
+.xjr_mine_dzf{
+    color:#DC2828;
+}
+.xjr_main_qfq{
+    display: block;
+    width: 1.97rem;
+    height: .77rem;
+    border: .03rem solid #DC2828;
+    color: #DC2828;
+    border-radius: 2.67rem;
+    font-size: .35rem;
+    text-align: center;
+    line-height: .77rem;
+    position: absolute;
+    right: .33rem;
+    top: 4.4rem;
+    /* box-sizing: content-box; */
+}
+/* 分期首付的样式 */
+.xjr_main_box5{
+    padding-top: .63rem;
+    position: relative;
+}
+.xjr_mine_fqzy{
+    font-size: .29rem;
+    color: #FF6600;
+}
+.xjr_mine_fqzy1{
+    padding-bottom: .53rem; 
+}
+.xjr_main_qfsf{
+    display: block;
+    width: 1.97rem;
+    height: .77rem;
+    border: .03rem solid #DC2828;
+    color: #DC2828;
+    border-radius: 2.67rem;
+    font-size: .35rem;
+    text-align: center;
+    line-height: .77rem;
+    position: absolute;
+    right: 0px;
+    top:.45rem;
+}
+/* 我的订单待付款部分 */
+.xjr_mine_daifk{
+    font-size: .32rem;
+    color: #DC2828;
+}
+.xjr_main_box21{
+    padding-bottom: .4rem;
+}
+.xjr_main_ljfk{
+    top: 2.4rem;
+}
+/* 我的订单已付款部分 */
+.xjr_main_box51{
+    padding-top: 0rem;
+}
+.xjr_main_fksj{
+    font-size: .29rem;
+    color: #777474;
+}
+.xjr_main_xieyi{
+    display: block;
+    text-align: center;
+    font-size: .32rem;
+    color: #4A4A4A;
+    padding-top: 1.17rem;
+    padding-bottom: .31rem;
+}

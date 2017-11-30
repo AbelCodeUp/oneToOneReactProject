@@ -48,12 +48,12 @@
 .bxk_content .bxk_lesson_teacher_box{
     overflow: hidden;
     border-bottom: .03rem solid #E8E8E8;
+    border-top: .03rem solid #E8E8E8;
 }
 .bxk_content .bxk_lesson_teacher_box .bxk_lesson_t_timebox{
     height: 1.31rem;
     display: flex;
     justify-content: space-between;
-    border-top: .03rem solid #E8E8E8;
     border-bottom: .03rem solid #E8E8E8;
     font-size: .43rem;
 }

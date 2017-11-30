@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import './tanChuang.css'
+import '../styles/tanChuang.css'
 
 //约课确认
 class YueKeSure extends Component {
   constructor(props) {
     super(props)
   }
+
 
   handleClick() {
     this.props.YueKeSure1()
@@ -285,77 +286,92 @@ class WanShanContent extends Component {
 class YueKeNoNext extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      num: 1,
-      keShiTime: 0
-    }
+    this.state = {}
   }
 
   handleClick() {
-    this.setState({
-      num: 2
-    })
-  }
-
-  handleClick2() {
     this.props.YueKeNoNext1()
   }
 
-  handleClick3() {
-    this.setState({
-      num: 1,
-      keShiTime: this.state.keShiTime--
-    });
-    let step = 1;
-    this.props.yuYueSee(step)
+  handleClick2() {
+    this.props.YueKeNoNext2()
   }
 
-  handleClick4() {
-    let step = 0;
-    this.props.yuYueQuXiao(step)
+  componentDidMount() {
+
   }
+
 
   render() {
-    let state = this.state, {num, keShiTime} = state;
     return (<div className="zjb_tanChuangBox">
-      {
-        num === 1 ? <div className="zjb_tanchuang">
-          <div className="index">
-            <div className="success">确认取消本次课程预约？</div>
-          </div>
-          <div className="bottom">
-            <div className="no" onTouchStart={this.handleClick2.bind(this)}>我再想想</div>
-            <div className="yes" onTouchStart={this.handleClick.bind(this)}>确定取消</div>
-          </div>
-        </div> : num === 2 ?
-          keShiTime === 0 ?
-            <div className="zjb_tanchuang">
-              <div className="top">温馨提示</div>
-              <div className="index">
-                <div className="content">本月您已消耗完3次机会<br/>本次取消将扣除您1课时</div>
-              </div>
-              <div className="bottom">
-                <div className="no" onTouchStart={this.handleClick3.bind(this)}>取消</div>
-                <div className="yes" onTouchStart={this.handleClick4.bind(this)}>确定</div>
-              </div>
-            </div>
-            :
-            <div className="zjb_tanchuang">
-              <div className="top">温馨提示</div>
-              <div className="index">
-                <div className="content">您本月有3次不扣课时的取<br/>消机会（课前24小时内）本<br/>次取消不会扣除课时</div>
-              </div>
-              <div className="bottom">
-                <div className="no" onTouchStart={this.handleClick3.bind(this)}>我再想想</div>
-                <div className="yes" onTouchStart={this.handleClick4.bind(this)}>确定取消</div>
-              </div>
-            </div>
-          : null
-
-      }
+      <div className="zjb_tanchuang">
+        <div className="index">
+          <div className="success">确认取消本次课程预约？</div>
+        </div>
+        <div className="bottom">
+          <div className="no" onTouchStart={this.handleClick2.bind(this)}>我再想想</div>
+          <div className="yes" onTouchStart={this.handleClick.bind(this)}>确定取消</div>
+        </div>
+      </div>
     </div>)
   }
 }
 
-export {YueKeSure,YueKeSureNextOne,YueKeSureNextTwo,YueKeAgain,QuXiaoGuanZhu,WanShanContent,YueKeNoNext}
+//取消预约2
+class YueKeNoNext2 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      LessonRecords3: this.props.LessonRecords3
+    }
+  }
 
+  handleClick3() {
+    this.props.YueKeNoNext3()
+  }
+
+  handleClick4() {
+    this.props.YueKeNoNext4()
+  }
+
+  componentDidMount() {
+    console.log(this.state.LessonRecords3)
+  }
+
+  render() {
+    return (
+      <div className="zjb_tanChuangBox">
+        <div className="zjb_tanchuang">
+          <div className="top">温馨提示</div>
+          {
+            this.state.LessonRecords3[0].data > 4 ?
+              <div className="index">
+                <div className="content content2">本月您已消耗完3次机会，<br/>本次取消将扣除您1课时。</div>
+              </div>
+              :
+              <div className="index">
+                <div className="content content2">您本月有3次不扣课时的取<br/>消机会（课前24小时内）本<br/>次取消不会扣除课时。</div>
+              </div>
+          }
+          <div className="bottom">
+            <div className="no" onTouchStart={this.handleClick3.bind(this)}>我再想想</div>
+            <div className="yes" onTouchStart={this.handleClick4.bind(this)}>确定取消</div>
+          </div>
+        </div>
+      </div>
+    )
+
+  }
+}
+
+
+export {
+  YueKeSure,
+  YueKeSureNextOne,
+  YueKeSureNextTwo,
+  YueKeAgain,
+  QuXiaoGuanZhu,
+  WanShanContent,
+  YueKeNoNext,
+  YueKeNoNext2
+}

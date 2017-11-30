@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Link} from 'react-router';
+import {Link, hashHistory} from 'react-router';
 import axios from 'axios';
 import ServerUrl from '../config/server';
-if (true) {} else {}
 
 import Swiper from 'swiper';
+
+// 弹层组件
+import { YueKeSureNextOne, QuXiaoGuanZhu, YueKeSureNextTwo } from './TanChuang';
 require('../common/swiper/swiper.min.css');
 
 const closeIcon = require('../images/bxk_lesson_close.png');
@@ -25,18 +27,24 @@ export default class ALlTeachers extends React.Component {
         xw: [],
         ws: []
       }, //时间
-      activeTime: null, //选择的时间
+      activeTime: '', //选择的时间
       activeDate: this.dataArrs()[0][0].time, //选择的日期
       activeWeek: this.dataArrs()[0][0].weekStr, //当前选择周
       tchDatas: [], //保存老师数据
       sysTime: {
         date: '',
         year: ''
-      }
+      },
+
+      teacerId : null, //老师iD
+      qxState : 0, //取消状态
+      isShowGZ: 0 ,  //取消主注弹层
+      isSuccess: 0, //约课成功
+
     }
 
     this.getLessonTime(this.dataArrs()[0][0].time);
-    this.getSystemTime();//获取服务器时间
+    this.getSystemTime(); //获取服务器时间
 
     this.onActiveDate = this.onActiveDate.bind(this);
     this.onActiveTime = this.onActiveTime.bind(this);
@@ -47,20 +55,17 @@ export default class ALlTeachers extends React.Component {
   // 获取服务器时间
   getSystemTime = () => {
     let {sysTime} = this.state;
-    axios.get(ServerUrl.GetSystemTime, {})
-    .then((res)=>{
+    axios.get(ServerUrl.GetSystemTime, {}).then((res) => {
       if (res.data.result == 1) {
-        sysTime = this.formatDate(res.data.data.Time*1000);
-        this.setState({
-          sysTime
-        })
+        sysTime = this.formatDate(res.data.data.Time * 1000);
+        this.setState({sysTime})
       }
     })
   }
   //格式化日期：yyyy-MM-dd hh:mm
   formatDate = (date) => {
 
-    var date = this.calcTime(date,8);
+    var date = this.calcTime(date, 8);
 
     var y = date.getFullYear();
     var m = date.getMonth() + 1;
@@ -265,9 +270,7 @@ export default class ALlTeachers extends React.Component {
     }
 
     oDate = `${activeDate} ${activeTime}`;
-    this.setState({
-      isShowOrder: false
-    })
+    this.setState({isShowOrder: false})
     // 初始化当前时间老师列表
     this.getTeacherData();
 
@@ -293,9 +296,7 @@ export default class ALlTeachers extends React.Component {
             if (isFirstDate && item.Status == 1) {
               item.isSelect = true;
               isFirstDate = false;
-              this.setState({
-                activeTime: item.Time
-              })
+              this.setState({activeTime: item.Time})
             } else {
               item.isSelect = false;
             }
@@ -312,6 +313,11 @@ export default class ALlTeachers extends React.Component {
         this.getTeacherData();
       }
     })
+  }
+
+  // 跳转老师详情
+  goTchInfo = (id) => {
+    hashHistory.push(`/teacherInfo/${id}`);
   }
 
   // 通过时间获取当前时间段老师
@@ -332,26 +338,41 @@ export default class ALlTeachers extends React.Component {
     })
   }
   // 关注老师
-  sendAttention = (tchId, IsAttention, isGuanZhu)=> {
-    let { tchDatas } = this.state;
+  sendAttention = (tchId , isGuanZhu) => {
+
+    let {tchDatas} = this.state;
 
     axios.get(ServerUrl.AttentionTeacher, {
       params: {
         teacherId: tchId,
-        status: IsAttention
+        status: isGuanZhu
       }
     }).then((res) => {
       if (res.data.result == 1) {
-        alert('关注成功');
-        tchDatas = tchDatas.map((el,i) => {
-          if(el.TeacherID === tchId){
-            el.IsAttention = 1
+
+        tchDatas = tchDatas.map((el, i) => {
+          if (el.TeacherID === tchId) {
+            el.IsAttention = isGuanZhu
           }
           return el;
         })
         this.setState({tchDatas});
 
       }
+    })
+  }
+  // 约课
+  orderedTeacher = ( tchId ) => {
+    let { activeDate, activeTime } = this.state;
+    axios.get(ServerUrl.JoinAttendLesson, {
+      params: {
+        teacherId: tchId,
+        LessonTime: `${activeDate} ${activeTime}`,
+        attendLessonId: ''
+      }
+    })
+    .then((res)=>{
+      console.log(res);
     })
   }
 
@@ -363,7 +384,11 @@ export default class ALlTeachers extends React.Component {
       activeDate,
       activeTime,
       activeWeek,
-      tchDatas
+      tchDatas,
+      isShowGZ, //取消关注
+      teacerId,
+      qxState,
+      isSuccess, //约课成功
     } = this.state;
 
     let aData = `${activeDate.split('-')[1]}-${activeDate.split('-')[2]}`; //当前时间
@@ -379,9 +404,48 @@ export default class ALlTeachers extends React.Component {
         : 'none'
     };
 
-    const {onActiveTime, openOrder, onActiveDate, onSubmitDate, isToDay, sendAttention} = this;
+    const {
+      onActiveTime,
+      openOrder,
+      onActiveDate,
+      onSubmitDate,
+      isToDay,
+      sendAttention,
+      goTchInfo,
+      orderedTeacher //约课
+    } = this;
 
-    return (<div>
+    return (
+    <div>
+      {/* 取消关注弹窗 */}
+      {
+        isShowGZ ?
+        <QuXiaoGuanZhu
+          QuXiaoGuanZhu1={ (id,state)=>{
+            sendAttention( teacerId, qxState);
+            this.setState({
+              isShowGZ:0
+            })
+          }}
+          QuXiaoGuanZhu2={ ()=>{ //取消
+            this.setState({
+              isShowGZ:0
+            })
+          }}
+
+         />
+        :
+        undefined
+      }
+      {/* 预约成功 */}
+      {
+        isSuccess ?
+        <YueKeSureNextOne />
+        :
+        undefined
+      }
+
+
       <div className="bxk_content">
         <ul className="bxk_lesson_teacher_box">
           <li className="bxk_lesson_t_timebox" onClick={openOrder}>
@@ -403,7 +467,7 @@ export default class ALlTeachers extends React.Component {
             tchDatas.map((el) => {
               return (<li className="bxk_lesson_teacher_item" key={el.TeacherID}>
                 <div className="bxk_l_teacher_itembox">
-                  <div className="bxk_l_teacher_imgbox fl">
+                  <div className="bxk_l_teacher_imgbox fl" onClick={() => {goTchInfo( el.TeacherID )}}>
                     <img src={el.HeaderImage} alt=""/>
                   </div>
                   {/* <!--
@@ -415,18 +479,26 @@ export default class ALlTeachers extends React.Component {
                       {el.EnglishName}
                     </div>
                     {
-                      el.IsAttention !== 0
-                        ? <div className="bxk_l_teacher_guanzhu_buttion bxk_guanzhu_active">
-                            未关注
+                      el.IsAttention != 0
+                        ? <div className="bxk_l_teacher_guanzhu_buttion bxk_guanzhu_active"
+                            onClick={() => {
+                                  this.setState({
+                                    isShowGZ : 1,
+                                    teacerId: el.TeacherID
+                                  })
+                                }}>
+                            已关注
                           </div>
-                        : <div className="bxk_l_teacher_guanzhu_buttion" onClick={ ()=>{sendAttention( el.TeacherID, el.IsAttention )} }>
+                        : <div className="bxk_l_teacher_guanzhu_buttion" onClick={() => {
+                              sendAttention(el.TeacherID, 1)
+                            }}>
                             +关注
                           </div>
                     }
 
                   </div>
                   <div className="bxk_l_teacher_yuyue fr">
-                    <a href="javascript:;">
+                    <a href="javascript:;" onClick={ ()=>{ orderedTeacher( el.TeacherID )} }>
                       预约
                     </a>
                   </div>

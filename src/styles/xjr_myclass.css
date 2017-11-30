@@ -1,0 +1,154 @@
+
+
+.xjr_class_box{
+    background: #f5f5f5;
+    font-family: PingFangSC-Regular;
+    letter-spacing: 0;
+}
+.xjr_class_info{
+    padding-top: .55rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+    background:#fff;
+    border: .03rem solid #E8E8E8;
+}
+.xjr_canvas_box{
+    border: 1px solid #4D5A6B; 
+    border-radius: 50%;
+    width: 1.97rem;
+    height: 1.97rem;
+    margin-right: .32rem;
+    position: relative;
+    left: .32rem;
+    margin-bottom: .47rem;
+}
+/* #xjr_mycanvas{
+    position: absolute;
+    left: -4.285%;
+    top: -4.285%;
+} */
+.xjr_canvas_zks{
+    position: absolute;
+    left: .32rem;
+    bottom: .37rem;
+    color: #9B9B9B;
+    font-size: .346667rem;
+}
+.xjr_canvas_syks{
+    position: absolute;
+    right: .32rem;
+    top: .37rem;
+    color: white;
+    font-size: .346667rem;
+    
+}
+.xjr_syks_box{
+    display: flex;
+    width: 7.71rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+    padding-bottom: .29rem;
+    
+}
+.xjr_dian_red{
+    display: inline-block;
+    width:.213rem;
+    height: .213rem;
+    border-radius: 100%;
+    background: #DC2828;
+    margin-left: .35rem;
+    margin-right: .213rem;
+}
+.xjr_dian_black{
+    display: inline-block;
+    width:.213rem;
+    height: .213rem;
+    border-radius: 100%;
+    background: #9B9B9B;
+    margin-left: .35rem;
+    margin-right: .213rem;
+}
+.xjr_ks{
+    padding-left: .267rem;
+}
+.xjr_syks{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .373rem;
+    color: #DC2828;
+}
+.xjr_zks{
+    
+    font-size: .373rem;
+    color: #4A4A4A;;
+}
+.xjr_gmks{
+    padding-right: .32rem;
+}
+.xjr_syyxq{
+    font-size: .32rem;
+    color: #9B9B9B;
+    padding-right: .32rem;
+}
+.xjr_class_note{
+    margin-top: .53rem;
+    background: #FFFFFF;
+    border-top: .03rem solid #E8E8E8;
+    padding-left: .33rem;
+}
+.xjr_note_itemHead{
+    height: 1.39rem; 
+    position: relative;
+    line-height: 1.39rem;
+    border-bottom: .03rem solid #E8E8E8;
+    font-size: .43rem;
+    color: #0D0101;
+}
+.xjr_mine_gang1{
+    width:.08rem;
+    height: .43rem;
+    background: #DC2828;
+    border-radius: 2.67rem;
+    position: absolute;
+    top: .47rem;
+    
+
+}
+.xjr_note_itemHead span{
+    padding-left: .21rem;
+}
+.xjr_note_item{
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row nowrap;
+    align-items: center;
+    border-bottom: .03rem solid #E8E8E8;
+    font-size: .43rem;
+    color: #0D0101;
+    height: 1.39rem; 
+}
+.xjr_note_itemName{
+    width: 4.6rem;
+    font-size: .43rem;
+    color: #4A4A4A;
+}
+.xjr_note_right{
+    display: flex;
+    width: 4.6rem;
+    justify-content: space-between;
+    flex-flow: row nowrap;
+    padding-right: .28rem;
+}
+.xjr_note_itemVal{
+    font-size: .37rem;
+    color: #0D0101;
+}
+.xjr_note_itemTime{
+    font-size: .35rem;
+    color: #777474;
+    
+}

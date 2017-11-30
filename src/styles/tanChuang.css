@@ -5,7 +5,7 @@
 .zjb_tanChuangBox{
     width: 100%;
     height:100%;
-    background-color: #eee;
+    background:rgba(0,0,0,0.4);
     position: absolute;
     z-index: 9999;
     top:0;
@@ -44,7 +44,7 @@
     width: 1.07rem;
     height: 1.07rem;
     border-radius: 50%;
-    background-image: url("img/aaa.jpg");
+    /*background-image: url("../images/aaa.jpg");*/
     background-size: cover;
 }
 .zjb_tanchuang>.index>.indexName{
@@ -106,11 +106,11 @@
     margin-left: .41rem;
 }
 .zjb_tanchuang>.index>.indexInput:nth-child(1)>div>div.phoneGrey{
-    background: url("img/zjb_phoneGrey.png") no-repeat;
+    background: url("../images/zjb_phoneGrey.png") no-repeat;
     background-size: cover;
 }
 .zjb_tanchuang>.index>.indexInput:nth-child(1)>div>div.phoneRed{
-    background: url("img/zjb_phoneRed.png") no-repeat;
+    background: url("../images/zjb_phoneRed.png") no-repeat;
     background-size: cover;
 }
 
@@ -122,11 +122,11 @@
 }
 
 .zjb_tanchuang>.index>.indexInput:nth-child(2)>div>div.nameGrey{
-    background: url("img/zjb_personGrey.png") no-repeat;
+    background: url("../images/zjb_personGrey.png") no-repeat;
     background-size: cover;
 }
 .zjb_tanchuang>.index>.indexInput:nth-child(2)>div>div.nameRed{
-    background: url("img/zjb_personRed.png") no-repeat;
+    background: url("../images/zjb_personRed.png") no-repeat;
     background-size: cover;
 }
 

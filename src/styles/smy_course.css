@@ -13,33 +13,17 @@ body,html{ background:#f5f5f5; }
 .smy_course_dp_item_xing{  float:right; width:30%; padding-top:0.35rem; padding-right:0.32rem; height:1.28rem; box-sizing:border-box; text-align:right; }
 .smy_course_dp_item_xing_img{  display:inline-block; width:0.51rem; }
 .smy_course_dp_item2{  width:100%; height:3.47rem; background:#fff; border-top:0.03rem solid #e8e8e8; border-bottom:0.03rem solid #e8e8e8; }
-.smy_course_dp_textarea{  border:none; width:100%; height:3.47rem;  padding:0.32rem; box-sizing:border-box; font-size:0.37rem; color:#B6B2B2; line-height:0.53rem; }
+.smy_course_dp_textarea{ resize: none; border:none; width:100%; height:3.47rem;  padding:0.32rem; box-sizing:border-box; font-size:0.37rem; line-height:0.53rem; }
 .smy_course_dp_btu{  display:block; width:4.0rem; height:0.96rem; border-radius:2.67rem; border:0.03rem solid #DC2828; background:#fff; line-height:0.96rem; margin:1.07rem auto 0; text-align:center; font-size:0.43rem; color:#DC2828; }
 .smy_course_dp_btu>a{color:#DC2828;}
 .smy_course_dp_btu2{border-color: #7F7979;color:#7F7979;}
-.smy_course_dp_textarea::-webkit-input-placeholder {
-  /* WebKit browsers */
-  color:#B6B2B2;
-}
-.smy_course_dp_textarea:-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  color:#B6B2B2;
-}
-.smy_course_dp_textarea::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  color:#B6B2B2;
-}
-.smy_course_dp_textarea::-ms-input-placeholder {
-  /* Internet Explorer 10+ */
-  color:#B6B2B2;
-}
 
 
 .smy_course_dp_textarea_show{border:none; width:100%; height:3.47rem;  padding:0.32rem; box-sizing:border-box; font-size:0.37rem; color: #4A4A4A; line-height:0.53rem; }
 
 
 /*头部*/
-.smy_course_head{  width:100%; height:1.33rem;  border-top:0.03rem solid #e8e8e8; border-bottom:0.03rem solid #e8e8e8;  background:#fff; position:fixed; top:0; left:0; }
+.smy_course_head{  width:100%; height:1.33rem;  border-top:0.03rem solid #e8e8e8; border-bottom:0.03rem solid #e8e8e8;  background:#fff; position:fixed; top:0; left:0; z-index: 9}
 .smy_course_head_xian{  position:absolute; top:0; right:0; bottom:0; left:0; margin:auto; width:0.03rem; height:0.81rem; background:#E8E8E8; overflow:hidden;  }
 .smy_course_head_itemBox{ width:100%; height:100%; position:absolute; top:0; left:0; }
 .smy_course_head_item{  float:left; width:50%; height:100%; text-align:center; }
@@ -50,7 +34,7 @@ body,html{ background:#f5f5f5; }
 
 /*课表——未完成*/
 .smy_course_unfinish_list_box{  padding:1.63rem 0 1.6rem; background:#f5f5f5; }
-.smy_course_unfinish_list_item{   position:relative; width:100%; height:3.09rem; margin-bottom:0.27rem; border-top:0.03rem solid #e8e8e8; border-bottom:0.03rem solid #e8e8e8; background:#fff; padding:0.32rem; box-sizing:border-box; }
+.smy_course_unfinish_list_item{   position:absolute; width:100%; height:3.09rem; margin-bottom:0.27rem; border-top:0.03rem solid #e8e8e8; border-bottom:0.03rem solid #e8e8e8; background:#fff; padding:0.32rem; box-sizing:border-box; }
 .smy_course_unfinish_list_item_time{  width:100%; height:0.83rem; font-size:0.4rem; color:#0D0101; }
 .smy_course_unfinish_list_item_middle{ width:100%; height:1.63rem; }
 .smy_course_unfinish_list_item_teacherImg{  width:1.6rem; height:1.6rem; border-radius:50%; border:0.03rem solid #e8e8e8; overflow:hidden; box-sizing:border-box; float:left; }
@@ -101,8 +85,7 @@ body,html{ background:#f5f5f5; }
 .smy_course_finished_list_item_trophy{  float:left; }
 .smy_course_finished_list_item_trophyImg{   float:left; width:0.45rem; }
 .smy_course_finished_list_item_trophyText{   float:left;  font-size:0.32rem; color:#FFC800; height:0.67rem; line-height:0.67rem; }
-.smy_course_finished_list_item_btu_hong{ float:right; width:1.44rem; height:0.64rem; border:0.03rem solid #DC2828; border-radius:2.67rem; background:#fff; line-height:0.64rem;  text-align:center; font-size:0.32rem; }
-.smy_course_finished_list_item_btu_hong>a{ color:#DC2828;}
+a.smy_course_finished_list_item_btu_hong{ color:#DC2828;float:right; width:1.44rem; height:0.64rem; border:0.03rem solid #DC2828; border-radius:2.67rem; background:#fff; line-height:0.64rem;  text-align:center; font-size:0.32rem; }
 .smy_course_finished_list_item_btu_hui{ float:right; width:1.44rem; height:0.64rem; border:0.03rem solid #7F7979; border-radius:2.67rem; background:#fff; line-height:0.64rem;  text-align:center; font-size:0.32rem; color:#7F7979; }
 .smy_course_finished_list_item_state{  position:absolute; right:0.32rem; top:0.32rem; height:0.48rem; color:#FF6600; font-size:0.32rem;}
 

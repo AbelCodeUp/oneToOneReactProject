@@ -27,7 +27,7 @@ export default class IndexMain extends React.Component {
                 </div>
                 <ul className="zjb_footerNav">
                     <li>
-                        <Link to="/" activeClassName="active" onlyActiveOnIndex={true} >
+                        <Link to="/orderLesson" activeClassName="active" >
                             <div className="footerNavImg1_1 footerNavImg1" />
                             <div className="color">约课</div>
                         </Link>

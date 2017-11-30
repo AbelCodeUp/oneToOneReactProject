@@ -4,7 +4,8 @@
     list-style: none;
     display: flex;
     justify-content: space-around;
-    position: absolute;
+    position: fixed;
+  background-color: white;
     z-index: 1;
     bottom: 0;
 }
