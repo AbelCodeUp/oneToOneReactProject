@@ -27,9 +27,11 @@ export default class TeacherInfo extends React.Component {
       activeDate: this.dataArrs()[0][0].time, //选择的日期
       activeTime: '', //选择的时间
       activeWeek: this.dataArrs()[0][0].weekStr, //当前选择周
+      activeTimeId : 0 //当前时间ID
     }
 
     this.getSystemTime(); //获取服务器时间
+    this.loadTchInfo(); //初始化
 
     this.onActiveDate = this.onActiveDate.bind(this);
     this.onActiveTime = this.onActiveTime.bind(this);
@@ -47,6 +49,8 @@ export default class TeacherInfo extends React.Component {
   }
   onSubmitDate() {
     const {activeDate, activeTime} = this.state;
+    const { id } = this.props.params
+    alert(activeDate)
     let oDate;
     if (activeTime == null) {
       alert('请选择日期');
@@ -54,10 +58,32 @@ export default class TeacherInfo extends React.Component {
     }
 
     oDate = `${activeDate} ${activeTime}`;
-    this.setState({isShowOrder: false})
-    // 初始化当前时间老师列表
-    this.getTeacherData();
 
+    this.orderedTeacher( id , oDate )
+
+  }
+  // 约课
+  orderedTeacher = ( tchId ,date ) => {
+    let { activeDate, activeTime } = this.state;
+    axios.get(ServerUrl.JoinAttendLesson, {
+      params: {
+        teacherId: tchId,
+        LessonTime: date,
+        attendLessonId: 0
+      }
+    })
+    .then((res)=>{
+      var state = res.data.result;
+      let { activeTimeId } = this.state;
+      if(res.data.result == 1){
+        alert(res.data.msg);
+      }else if(state == 3){
+        alert(res.data.msg);
+      }
+      // id: 当前时间 ID
+      this.onActiveTime(id,activeTimeId);
+
+    })
   }
   isToDay = (date) => {
     return this.calcTime(new Date(), 8).toLocaleDateString().replace(/\//g, '-') === date;
@@ -97,6 +123,7 @@ export default class TeacherInfo extends React.Component {
     timeSW = timeArrs.sw.map((e) => {
       e.isSelect = false;
       if (e.id === id) {
+        e.activeTimeId = id;
         e.isSelect = true;
         time = e.Time;
       }
@@ -105,6 +132,7 @@ export default class TeacherInfo extends React.Component {
     timeXW = timeArrs.xw.map((e) => {
       e.isSelect = false;
       if (e.id === id) {
+        e.activeTimeId = id;
         e.isSelect = true;
         time = e.Time;
       }
@@ -113,6 +141,7 @@ export default class TeacherInfo extends React.Component {
     timeWS = timeArrs.ws.map((e) => {
       e.isSelect = false;
       if (e.id === id) {
+        e.activeTimeId = id;
         e.isSelect = true;
         time = e.Time;
       }
@@ -136,6 +165,7 @@ export default class TeacherInfo extends React.Component {
       if (res.data.result == 1) {
         sysTime = this.formatDate(res.data.data.Time * 1000);
         this.setState({sysTime})
+        this.getLessonTime(sysTime.date);
       }
     })
   }
@@ -257,7 +287,7 @@ export default class TeacherInfo extends React.Component {
             if (isFirstDate && item.Status == 1) {
               item.isSelect = true;
               isFirstDate = false;
-              this.setState({activeTime: item.Time})
+              this.setState({activeTime: item.Time,activeTimeId : item.id})
             } else {
               item.isSelect = false;
             }
@@ -278,7 +308,19 @@ export default class TeacherInfo extends React.Component {
 
   loadTchInfo = () =>{
     const { params } = this.props;
-    axios.get(ServerUrl.GetSystemTime, {})
+
+    axios.get(ServerUrl.GetTeacherInfo, {
+      params: {
+        teacherId: params.id
+      }
+    })
+    .then((res)=>{
+      if(res.data.result == 1){
+        this.setState({
+          tchDatas: res.data.data
+        })
+      }
+    })
   }
 
   render() {
@@ -287,7 +329,8 @@ export default class TeacherInfo extends React.Component {
       timeArrs,
       activeDate,
       activeTime,
-      activeWeek
+      activeWeek,
+      tchDatas
     } = this.state;
 
     const {
@@ -305,7 +348,9 @@ export default class TeacherInfo extends React.Component {
               </div>
               <div className="bxk_tch_info_msg fl">
                   <div className="bxk_tch_name">
-                      Ruisun
+                      {
+                        tchDatas.EnglishName
+                      }
                   </div>
                   <div className="bxk_tch_sex">
                       <img src="img/bxk_icon_women.png" alt="" />

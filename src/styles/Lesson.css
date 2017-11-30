@@ -291,3 +291,24 @@
     margin-top: 0.3rem;
     box-sizing: border-box;
 }
+.bxk_no_bg{
+    background: transparent!important;
+}
+/* 没课程 */
+.bxk_no_tch{
+    text-align: center;
+    margin: 6rem auto;
+}
+.bxk_no_tch_img{
+    width: 3.21rem;
+    height: 3.2rem;
+    margin: 0 auto;
+}
+.bxk_no_tch_img img{
+    width: 100%;
+}
+.bxk_no_msg{
+    font-size: .37rem;
+    color: #4A4A4A;
+    margin-top: 0.5rem;
+}

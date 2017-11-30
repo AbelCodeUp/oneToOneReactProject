@@ -21,8 +21,9 @@ export default {
   LearningSituation: 'Student/LearningSituation', //获取学习情况
   GetProvinceList: 'Student/GetProvinceList', //获取省
   GetCityList: 'Student/GetCityList', //获取市
+  GetTeacherInfo: 'Teacher/GetTeacherInfo' //获取老师详情
 
-  GetLessonRecords: 'Student/GetLessonRecords',
+  ,GetLessonRecords: 'Student/GetLessonRecords',
   CancelAttendLesson: "Demands/CancelAttendLesson",
   SetComment: "Student/SetComment",
   CancelLessonCount: "Demands/CancelLessonCount",

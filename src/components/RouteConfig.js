@@ -49,6 +49,7 @@ export default class AppComponent extends React.Component {
 
                       <Route path="Login" component={Login} /> */
           }
+            <IndexRedirect from="/" to="/orderLesson/teachers"/>
             <Route path="orderLesson" component={LessonMain}>
               <IndexRedirect from="/orderLesson" to="/orderLesson/teachers"/>
               <Route path="teachers" component={ALlTeachers}/>
@@ -57,15 +58,17 @@ export default class AppComponent extends React.Component {
             {/* zjb */}
             {/* <IndexRedirect to="/lessonlist/unfinish" /> */}
             <Route path="lessonlist" component={LessonList}>
-              <IndexRoute component={UnFinish}/>
+              <IndexRedirect from="/lessonlist" to="/lessonlist/UnFinish" />
+              {/* <IndexRoute component={UnFinish}/> */}
               <Route path="unfinish" component={UnFinish}/>
               <Route path="finished" component={Finished}/>
             </Route>
             <Route path="person" component={Person}/>{/* xjr */}
 
             <Route path="/Main" component={TeacherInfo}/> {/* xjr */}
-            <Route path="/teacherInfo/:id" component={TeacherInfo}/>
           </Route>
+
+          <Route path="/teacherInfo/:id" component={TeacherInfo}/>
           <Route path="/personinfo" component={PersonInfo}></Route>
           <Route path="/myclass" component={MyClass}></Route>
           <Route path="/mydingdan" component={MyDingdan}></Route>

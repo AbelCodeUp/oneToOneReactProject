@@ -36,14 +36,14 @@ export default class ALlTeachers extends React.Component {
         year: ''
       },
 
-      teacerId : null, //老师iD
+      teacerId : 0, //老师iD
       qxState : 0, //取消状态
       isShowGZ: 0 ,  //取消主注弹层
       isSuccess: 0, //约课成功
 
     }
 
-    this.getLessonTime(this.dataArrs()[0][0].time);
+
     this.getSystemTime(); //获取服务器时间
 
     this.onActiveDate = this.onActiveDate.bind(this);
@@ -59,6 +59,7 @@ export default class ALlTeachers extends React.Component {
       if (res.data.result == 1) {
         sysTime = this.formatDate(res.data.data.Time * 1000);
         this.setState({sysTime})
+        this.getLessonTime(sysTime.date);
       }
     })
   }
@@ -183,7 +184,6 @@ export default class ALlTeachers extends React.Component {
 
   openOrder = () => { //打开约课窗口
     //获取两周的时间
-
     this.setState({isShowOrder: true})
     setTimeout(() => {
       // 初始化swiper
@@ -309,8 +309,6 @@ export default class ALlTeachers extends React.Component {
         timeArrs.ws = serverData[2];
 
         this.setState({timeArrs})
-        // 初始化当前时间老师列表
-        this.getTeacherData();
       }
     })
   }
@@ -368,7 +366,7 @@ export default class ALlTeachers extends React.Component {
       params: {
         teacherId: tchId,
         LessonTime: `${activeDate} ${activeTime}`,
-        attendLessonId: ''
+        attendLessonId: 0
       }
     })
     .then((res)=>{
