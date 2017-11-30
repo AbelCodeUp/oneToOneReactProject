@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Link} from 'react-router';
 import axios from 'axios';
 import ServerUrl from '../config/server';
+if (true) {} else {}
 
 import Swiper from 'swiper';
 require('../common/swiper/swiper.min.css');
@@ -18,41 +19,74 @@ export default class ALlTeachers extends React.Component {
 
     this.state = {
       isShowOrder: false, //约课窗口
-      timeDatas: this.dataArrs(),//日期
-      timeArrs: {  //时间数据初始化
-        sw:[],
-        xw:[],
-        ws:[]
+      timeDatas: this.dataArrs(), //日期
+      timeArrs: { //时间数据初始化
+        sw: [],
+        xw: [],
+        ws: []
       }, //时间
       activeTime: null, //选择的时间
       activeDate: this.dataArrs()[0][0].time, //选择的日期
-      activeWeek: this.dataArrs()[0][0].weekStr
+      activeWeek: this.dataArrs()[0][0].weekStr, //当前选择周
+      tchDatas: [], //保存老师数据
+      sysTime: {
+        date: '',
+        year: ''
+      }
     }
 
-    axios.get(ServerUrl.GetLessonRecords, {
-      params: {
-        status: 1,
-        pageIndex: 0
-      }
-    })
-      .then((res) =>{
-        console.log(res);
-      })
-
     this.getLessonTime(this.dataArrs()[0][0].time);
-
+    this.getSystemTime();//获取服务器时间
 
     this.onActiveDate = this.onActiveDate.bind(this);
     this.onActiveTime = this.onActiveTime.bind(this);
     this.onSubmitDate = this.onSubmitDate.bind(this);
+    // 获取时间内老师排课列表
+  }
+
+  // 获取服务器时间
+  getSystemTime = () => {
+    let {sysTime} = this.state;
+    axios.get(ServerUrl.GetSystemTime, {})
+    .then((res)=>{
+      if (res.data.result == 1) {
+        sysTime = this.formatDate(res.data.data.Time*1000);
+        this.setState({
+          sysTime
+        })
+      }
+    })
+  }
+  //格式化日期：yyyy-MM-dd hh:mm
+  formatDate = (date) => {
+
+    var date = this.calcTime(date,8);
+
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10
+      ? ('0' + m)
+      : m;
+    var d = date.getDate();
+    d = d < 10
+      ? ('0' + d)
+      : d;
+    var h = date.getHours();
+    var minute = date.getMinutes();
+    minute = minute < 10
+      ? ('0' + minute)
+      : minute;
+    return {
+      date: y + '-' + m + '-' + d + ' ' + h + ':' + minute,
+      year: y
+    }
   }
 
   closeOrder = () => { //关闭约课窗口
     this.setState({isShowOrder: false})
-
   }
   // 时间更改
-  calcTime = (time,offset) => {
+  calcTime = (time, offset) => {
     // create Date object for current location
     var d = new Date(time);
     // convert to msec
@@ -61,38 +95,9 @@ export default class ALlTeachers extends React.Component {
     var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
     // create new Date object for different city
     // using supplied offset
-    var nd = new Date(utc + (3600000*offset));
+    var nd = new Date(utc + (3600000 * offset));
     // return time as a string
-    return  nd;
-  }
-
-  // 判断是否两小时
-  isCanActive = (time) =>{
-
-    var oDate = this.calcTime(new Date(),8); //实例一个时间对象；
-
-
-    oDate.setHours( oDate.getHours() + 2 );
-
-    var tHour = oDate.getHours();
-    var tMin = oDate.getMinutes();
-
-    // console.log(tHour,time.split(':')[0],tHour <= time.split(':')[0]);
-    // 判断2小时时间
-    if( tHour < time.split(':')[0] ){
-      return true;
-    }else if( tHour == time.split(':')[0] && tHour <= 22){
-      // console.log(time.split(':')[1] == '30'&& tMin < 30)|| tMin >= 0 );
-      if( time.split(':')[1] == '30' && (tMin < 30 || tMin >= 0 )){
-        return true;
-      }else if( time.split(':')[1] == '00' && (tMin >= 30 || tMin < 0)){
-        return true;
-      }else{
-        return false;
-      }
-    }else {
-      return false;
-    }
+    return nd;
   }
 
   /*
@@ -105,8 +110,8 @@ export default class ALlTeachers extends React.Component {
     }
     }
   */
-  isToDay = (date) =>{
-    return this.calcTime(new Date(),8).toLocaleDateString().replace(/\//g,'-') === date;
+  isToDay = (date) => {
+    return this.calcTime(new Date(), 8).toLocaleDateString().replace(/\//g, '-') === date;
   }
 
   //初始化日期
@@ -123,9 +128,8 @@ export default class ALlTeachers extends React.Component {
       '周六'
     ];
 
-
     for (let i = 0; i < 14; i++) {
-      let futDate = this.calcTime(new Date(),8);
+      let futDate = this.calcTime(new Date(), 8);
       futDate.setDate(nowDate.getDate() + i);
 
       let m = (futDate.getMonth() + 1) < 10
@@ -145,12 +149,12 @@ export default class ALlTeachers extends React.Component {
         arrays[0].push({
           data: dateStr,
           weekStr: weekArr[futDate.getDay()],
-          week: this.isToDay( timeStr )
+          week: this.isToDay(timeStr)
             ? '今日'
             : weekArr[futDate.getDay()],
           time: timeStr,
           val: i,
-          isActive: this.isToDay( timeStr )
+          isActive: this.isToDay(timeStr)
             ? true
             : false
         });
@@ -158,12 +162,12 @@ export default class ALlTeachers extends React.Component {
         arrays[1].push({
           data: dateStr,
           weekStr: weekArr[futDate.getDay()],
-          week: this.isToDay( timeStr )
+          week: this.isToDay(timeStr)
             ? '今日'
             : weekArr[futDate.getDay()],
           time: timeStr,
           val: i,
-          isActive: this.isToDay( timeStr )
+          isActive: this.isToDay(timeStr)
             ? true
             : false
         });
@@ -186,7 +190,7 @@ export default class ALlTeachers extends React.Component {
     })
   }
   // 改变选择时间选中状态
-  onActiveTime (id) {
+  onActiveTime(id) {
     let {timeArrs} = this.state;
     let time = '';
     let timeSW = null;
@@ -196,7 +200,7 @@ export default class ALlTeachers extends React.Component {
       e.isSelect = false;
       if (e.id === id) {
         e.isSelect = true;
-        time = e.times;
+        time = e.Time;
       }
       return e;
     })
@@ -204,7 +208,7 @@ export default class ALlTeachers extends React.Component {
       e.isSelect = false;
       if (e.id === id) {
         e.isSelect = true;
-        time = e.times;
+        time = e.Time;
       }
       return e;
     })
@@ -212,18 +216,18 @@ export default class ALlTeachers extends React.Component {
       e.isSelect = false;
       if (e.id === id) {
         e.isSelect = true;
-        time = e.times;
+        time = e.Time;
       }
       return e;
     })
 
     this.setState({
-      timeArrs : {
-        sw : timeSW,
-        xw : timeXW,
-        ws : timeWS
+      timeArrs: {
+        sw: timeSW,
+        xw: timeXW,
+        ws: timeWS
       },
-      activeTime : time
+      activeTime: time
     })
 
   }
@@ -248,132 +252,134 @@ export default class ALlTeachers extends React.Component {
       return el;
     })
 
-    this.setState({
-        timeDatas,
-        activeDate: time,
-        activeWeek: week
-      });
+    this.setState({timeDatas, activeDate: time, activeWeek: week});
 
   }
 
   onSubmitDate() {
-    const { activeDate , activeTime } = this.state;
+    const {activeDate, activeTime} = this.state;
     let oDate;
-    if( activeTime == null ){
+    if (activeTime == null) {
       alert('请选择日期');
       return false;
     }
 
-    oDate  = `${activeDate} ${activeTime}`;
-    console.log(oDate);
+    oDate = `${activeDate} ${activeTime}`;
+    this.setState({
+      isShowOrder: false
+    })
+    // 初始化当前时间老师列表
+    this.getTeacherData();
 
   }
 
-  componentDidMount() {
-
-  }
-
+  componentDidMount() {}
+  // 获取当前时间状态
   getLessonTime(date) {
+    let {timeArrs} = this.state;
     axios.get(ServerUrl.GetTch_Lesson, {
-        params: {
-          LessonTime: date,
-          teacerId: 0
-        }
-      })
-      .then((res) => {
-        if(res.data.result == 1){
-          let serverData = res.data.data;
-          const mins = ['00', '30'];
-          const m = ['sw', 'xw', 'ws'];
-          let timeDatas = {};
-          var sw = 0;
-          var xw = 0;
-          var ws = 0;
-          for (let i = 0, mLength = m.length; i < mLength; i++) {
-            timeDatas[`${m[i]}`] = [];
-            for (let j = 8; j <= 22; j++) {
-              if (j <= 12 && j >= 8 && i == 0) {
-                sw ++ ;
-                for (let z = 0; z < mins.length; z++) {
-                  timeDatas[`${m[i]}`].push({
-                    times: `${j < 10
-                      ? '0' + j
-                      : j}:${mins[z]}`,
-                    isCanActive: this.isCanActive(`${j < 10  //传入显示时间判断是否过两小时
-                      ? '0' + j
-                      : j}:${mins[z]}`), // 是否两小时后
-                    isHaveLesson: false, //当前时间是否有课  没有用
-                    isSelect : false,
-                    isYiYuYue: serverData[i][sw].Status == 0 ? true : false, //是否有课
-                    id:Math.random()
-                  })
-
-                }
-
-              } else if (j > 12 && j <= 17 && i == 1) {
-                xw ++ ;
-                for (let z = 0; z < mins.length; z++) {
-                  timeDatas[`${m[i]}`].push({
-                    times: `${j < 10
-                      ? '0' + j
-                      : j}:${mins[z]}`,
-                    isCanActive: this.isCanActive(`${j < 10  //传入显示时间判断是否过两小时
-                      ? '0' + j
-                      : j}:${mins[z]}`),
-                    isHaveLesson: false, //当前时间是否有课
-                    isSelect : false,
-                    isYiYuYue: serverData[i][xw].Status == 0 ? true : false,
-                    id:Math.random()
-                  })
-                }
-              } else if (j > 17 && j <= 22 && i == 2) {
-                ws ++;
-                for (let z = 0; z < mins.length; z++) {
-                  if (j == 22 && z == 1) {
-                    continue;
-                  } else {
-                    timeDatas[`${m[i]}`].push({
-                      times: `${j < 10
-                        ? '0' + j
-                        : j}:${mins[z]}`,
-                      isCanActive: this.isCanActive(`${j < 10  //传入显示时间判断是否过两小时
-                        ? '0' + j
-                        : j}:${mins[z]}`),
-                      isHaveLesson: false, //当前时间是否有课
-                      isSelect : false,
-                      isYiYuYue: serverData[i][xw].Status != 0 ? true : false,
-                      id:Math.random()
-                    })
-                  }
-
-                }
-              }
-
+      params: {
+        LessonTime: date,
+        teacerId: 0
+      }
+    }).then((res) => {
+      if (res.data.result == 1) {
+        let serverData = res.data.data;
+        let isFirstDate = true;
+        for (let i = 0, len = serverData.length; i < len; i++) {
+          var oItems = serverData[i];
+          for (let j = 0, slen = oItems.length; j < slen; j++) {
+            var item = oItems[j];
+            if (isFirstDate && item.Status == 1) {
+              item.isSelect = true;
+              isFirstDate = false;
+              this.setState({
+                activeTime: item.Time
+              })
+            } else {
+              item.isSelect = false;
             }
+            item.id = Math.random();
           }
-          this.setState({
-            timeArrs: timeDatas
-          })
         }
-      })
+
+        timeArrs.sw = serverData[0];
+        timeArrs.xw = serverData[1];
+        timeArrs.ws = serverData[2];
+
+        this.setState({timeArrs})
+        // 初始化当前时间老师列表
+        this.getTeacherData();
+      }
+    })
+  }
+
+  // 通过时间获取当前时间段老师
+  getTeacherData = () => {
+    let {activeDate, activeTime} = this.state;
+    axios.get(ServerUrl.GetTeachers, {
+      params: {
+        time: `${activeDate} ${activeTime}`,
+        pageIndex: 1,
+        pageSize: 15
+      }
+    }).then((res) => {
+      if (res.data.result == 1) {
+
+        this.setState({tchDatas: res.data.data.Teachers})
+
+      }
+    })
+  }
+  // 关注老师
+  sendAttention = (tchId, IsAttention, isGuanZhu)=> {
+    let { tchDatas } = this.state;
+
+    axios.get(ServerUrl.AttentionTeacher, {
+      params: {
+        teacherId: tchId,
+        status: IsAttention
+      }
+    }).then((res) => {
+      if (res.data.result == 1) {
+        alert('关注成功');
+        tchDatas = tchDatas.map((el,i) => {
+          if(el.TeacherID === tchId){
+            el.IsAttention = 1
+          }
+          return el;
+        })
+        this.setState({tchDatas});
+
+      }
+    })
   }
 
   render() {
-    const {timeDatas, isShowOrder, timeArrs , activeDate , activeTime , activeWeek} = this.state;
+    const {
+      timeDatas,
+      isShowOrder,
+      timeArrs,
+      activeDate,
+      activeTime,
+      activeWeek,
+      tchDatas
+    } = this.state;
 
-    let aData = `${activeDate.split('-')[1]}-${activeDate.split('-')[2]}`
+    let aData = `${activeDate.split('-')[1]}-${activeDate.split('-')[2]}`; //当前时间
 
     console.log(timeArrs);
     console.log(timeDatas);
-    let ShowOrder = {
+    console.log(tchDatas);
+    console.log(activeTime);
+
+    let ShowOrderTime = {
       'display': isShowOrder
         ? 'block'
         : 'none'
     };
 
-    const {onActiveTime, openOrder, onActiveDate ,onSubmitDate, isToDay} = this;
-
-
+    const {onActiveTime, openOrder, onActiveDate, onSubmitDate, isToDay, sendAttention} = this;
 
     return (<div>
       <div className="bxk_content">
@@ -382,7 +388,9 @@ export default class ALlTeachers extends React.Component {
             <div className="bxk_lesson_time">
               {
 
-                `${ isToDay(activeDate) ? '今日': aData } ( ${activeWeek} ) ${activeTime}`
+                `${isToDay(activeDate)
+                  ? '今日'
+                  : aData} ( ${activeWeek} ) ${activeTime}`
 
               }
 
@@ -391,34 +399,47 @@ export default class ALlTeachers extends React.Component {
               <img src="" alt=""/>
             </div>
           </li>
-          <li className="bxk_lesson_teacher_item">
-            <div className="bxk_l_teacher_itembox">
-              <div className="bxk_l_teacher_imgbox fl">
-                <img src="" alt=""/>
-              </div>
-              {/* <!--
-                            未关注 ：bxk_guanzhu_active
-                        --> */
-              }
-              <div className="bxk_l_teacher_msg fl">
-                <div className="bxk_l_teacher_name">
-                  Ruisun
+          {
+            tchDatas.map((el) => {
+              return (<li className="bxk_lesson_teacher_item" key={el.TeacherID}>
+                <div className="bxk_l_teacher_itembox">
+                  <div className="bxk_l_teacher_imgbox fl">
+                    <img src={el.HeaderImage} alt=""/>
+                  </div>
+                  {/* <!--
+                                  未关注 ：bxk_guanzhu_active
+                              --> */
+                  }
+                  <div className="bxk_l_teacher_msg fl">
+                    <div className="bxk_l_teacher_name">
+                      {el.EnglishName}
+                    </div>
+                    {
+                      el.IsAttention !== 0
+                        ? <div className="bxk_l_teacher_guanzhu_buttion bxk_guanzhu_active">
+                            未关注
+                          </div>
+                        : <div className="bxk_l_teacher_guanzhu_buttion" onClick={ ()=>{sendAttention( el.TeacherID, el.IsAttention )} }>
+                            +关注
+                          </div>
+                    }
+
+                  </div>
+                  <div className="bxk_l_teacher_yuyue fr">
+                    <a href="javascript:;">
+                      预约
+                    </a>
+                  </div>
                 </div>
-                <div className="bxk_l_teacher_guanzhu_buttion">
-                  +关注
-                </div>
-              </div>
-              <div className="bxk_l_teacher_yuyue fr">
-                <a href="javascript:;">
-                  预约
-                </a>
-              </div>
-            </div>
-          </li>
+              </li>)
+            })
+
+          }
+
         </ul>
       </div>
       {/* <!-- 预约弹层 --> */}
-      <div className="bxk_yuyue_art_box" style={ShowOrder}>
+      <div className="bxk_yuyue_art_box" style={ShowOrderTime}>
         {/* <!-- 关闭 --> */}
         <div className="bxk_yuyue_art_close" onClick={this.closeOrder}>
           <img src={closeIcon} alt=""/>
@@ -463,7 +484,7 @@ export default class ALlTeachers extends React.Component {
         </div>
         <div className="bxk_yuyue_art_content_date">
           <div className="bxk_yuyue_art_content_am">
-            <img src={timeAm} alt=""/>
+            <img src={timeWs} alt=""/>
           </div>
           <div className="bxk_yuyue_art_content_am_box">
             {/*
@@ -476,20 +497,46 @@ export default class ALlTeachers extends React.Component {
               {
                 timeArrs.sw.map((el, index, elm) => {
                   return (
-                    el.isCanActive  ?
-                      <li
-                      onClick={ ()=> onActiveTime(el.id) }
-                      className={ `${el.isSelect ? 'canActive active' : 'canActive'} ${el.isYiYuYue ? 'yiActive' : ''}`}
-                      key={index}>
-                      {el.times}
-                      </li>
-                      :
-                      <li
-                      onClick={ ()=> onActiveTime(el.id) }
-                      key={index}>
-                      {el.times}
+                    el.Status == 1
+                    ? <li onClick={() => onActiveTime(el.id)} className={`canActive ${el.isSelect
+                        ? 'active'
+                        : ''}`} key={el.id}>
+                      {el.Time}
                     </li>
-                  )
+                    : <li className={`${el.Status == 2
+                        ? 'yiActive'
+                        : ''}`} onClick={() => onActiveTime(el.id)} key={el.id}>
+                      {el.Time}
+                    </li>)
+                })
+              }
+            </ul>
+          </div>
+          <div className="bxk_yuyue_art_content_am">
+            <img src={timeAm} alt=""/>
+          </div>
+          <div className="bxk_yuyue_art_content_am_box">
+            {/*
+              active : 选中
+              noActive : 不可选
+              yiActive : 已预约
+            */
+            }
+            <ul>
+              {
+                timeArrs.xw.map((el, index, elm) => {
+                  return (
+                    el.Status == 1
+                    ? <li onClick={() => onActiveTime(el.id)} className={`canActive ${el.isSelect
+                        ? 'active'
+                        : ''}`} key={el.id}>
+                      {el.Time}
+                    </li>
+                    : <li className={`${el.Status == 2
+                        ? 'yiActive'
+                        : ''}`} onClick={() => onActiveTime(el.id)} key={el.id}>
+                      {el.Time}
+                    </li>)
                 })
               }
             </ul>
@@ -506,60 +553,25 @@ export default class ALlTeachers extends React.Component {
             }
             <ul>
               {
-                timeArrs.xw.map((el, index, elm) => {
-                  return (
-                    el.isCanActive  ?
-                    <li
-                    onClick={ ()=> onActiveTime(el.id) }
-                    className={ `${el.isSelect ? 'canActive active' : 'canActive'} ${el.isYiYuYue ? 'yiActive' : ''}`}
-                    key={index}>
-                    {el.times}
-                    </li>
-                    :
-                    <li
-                    onClick={ ()=> onActiveTime(el.id) }
-                    key={index}>
-                    {el.times}
-                  </li>
-                  )
-                })
-              }
-            </ul>
-          </div>
-          <div className="bxk_yuyue_art_content_am">
-            <img src={timeWs} alt=""/>
-          </div>
-          <div className="bxk_yuyue_art_content_am_box">
-            {/*
-              active : 选中
-              noActive : 不可选
-              yiActive : 已预约
-            */
-            }
-            <ul>
-              {
                 timeArrs.ws.map((el, index, elm) => {
                   return (
-                      el.isCanActive  ?
-                      <li
-                      onClick={ ()=> onActiveTime(el.id) }
-                      className={`${el.isSelect ? 'canActive active' : 'canActive'} ${el.isYiYuYue ? 'yiActive' : ''}`}
-                      key={index}>
-                      {el.times}
-                      </li>
-                      :
-                      <li
-                      onClick={ ()=> onActiveTime(el.id) }
-                      key={index}>
-                      {el.times}
+                    el.Status == 1
+                    ? <li onClick={() => onActiveTime(el.id)} className={`canActive ${el.isSelect
+                        ? 'active'
+                        : ''}`} key={el.id}>
+                      {el.Time}
                     </li>
-                )
+                    : <li className={`${el.Status == 2
+                        ? 'yiActive'
+                        : ''}`} onClick={() => onActiveTime(el.id)} key={el.id}>
+                      {el.Time}
+                    </li>)
                 })
               }
             </ul>
           </div>
           {/* <!-- 确定按钮 --> */}
-          <div className="bxk_yuyue_art_submit" onClick={ onSubmitDate }>
+          <div className="bxk_yuyue_art_submit" onClick={onSubmitDate}>
             确定
           </div>
         </div>

@@ -21,10 +21,10 @@ export default class LessonMain extends React.Component {
                 <div className="bxk_header">
                     <ul>
                         <li className="bxk_lesson_nav_item">
-                            <Link to="/orderLesson/teachers" className="active" activeClassName="active" >全部外教 </Link>
+                            <Link to="/" activeClassName="active" onlyActiveOnIndex={true} >全部外教 </Link>
                         </li>
                         <li className="bxk_lesson_nav_item">
-                            <Link activeClassName="active" href="javascrit:;">我的关注</Link>
+                            <Link to="/orderLesson/attention" activeClassName="active" href="javascrit:;">我的关注</Link>
                         </li>
                     </ul>
                 </div>

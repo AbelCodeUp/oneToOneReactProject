@@ -52,7 +52,7 @@ export default class ALlTeachers extends React.Component {
           for(let i=0,l=sxw.length;i<l;i++){
             if(i == 0){
               timeDatas[`${sxw[i]}`] = [];
-              for(var j=0;j<timeArray[i];j++)
+              for(var j=0;j<timeArray[];j++)
             }else if(i == 1){
               timeDatas[`${sxw[i]}`] = timeArray[i];
             }else{

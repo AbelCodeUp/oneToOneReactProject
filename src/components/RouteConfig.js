@@ -3,6 +3,7 @@ require('styles/flexible.debug.css');
 require('styles/flexible.debug.js');
 require('styles/App.css');
 require('styles/Lesson.css');
+require('styles/smy_course.css');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,8 +18,8 @@ import LessonMainIndex from './LessonMainIndex';
 
 import ALlTeachers  from './AllTeachers';
 import LessonMain from './LessonMain';
-
-
+import FinishList from './FinishList';
+import Attention from './Attention';
 
 
 export default class AppComponent extends React.Component {
@@ -35,8 +36,9 @@ export default class AppComponent extends React.Component {
                     <Route path="orderLesson" component={LessonMain}>
                         <IndexRoute component={ALlTeachers} />
                         <Route path="teachers" component={ALlTeachers} />
+                        <Route path="attention" component={Attention} />
                     </Route>
-                    <Route path="lessonlist" component={LessonList} />
+                    <Route path="lessonlist" component={FinishList} />
                     <Route path="person" component={Person} />
                 </Route>
                 <Route path="/Main" component={IndexMain}>
