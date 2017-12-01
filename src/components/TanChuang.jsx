@@ -364,6 +364,24 @@ class YueKeNoNext2 extends Component {
   }
 }
 
+// 保存成功
+class SaveSuccess extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {}
+    }
+
+    render() {
+      return (<div className="zjb_tanChuangBox">
+        <div className="zjb_tanchuang">
+          <div className="index">
+            <div className="success" style={{color:'#DC2828'}}>保存成功</div>
+          </div>
+        </div>
+      </div>)
+    }
+  }
+
 
 export {
   YueKeSure,
@@ -373,5 +391,6 @@ export {
   QuXiaoGuanZhu,
   WanShanContent,
   YueKeNoNext,
-  YueKeNoNext2
+  YueKeNoNext2,
+  SaveSuccess
 }

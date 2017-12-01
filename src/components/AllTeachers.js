@@ -59,7 +59,7 @@ export default class ALlTeachers extends React.Component {
       if (res.data.result == 1) {
         sysTime = this.formatDate(res.data.data.Time * 1000);
         this.setState({sysTime})
-        this.getLessonTime(sysTime.date);
+        this.getLessonTime(sysTime.date.split(' ')[0]);
       }
     })
   }
@@ -84,7 +84,8 @@ export default class ALlTeachers extends React.Component {
       : minute;
     return {
       date: y + '-' + m + '-' + d + ' ' + h + ':' + minute,
-      year: y
+      year: y,
+      fdate : y + '-' + m + '-' + d
     }
   }
 
@@ -117,7 +118,7 @@ export default class ALlTeachers extends React.Component {
     }
   */
   isToDay = (date) => {
-    return this.calcTime(new Date(), 8).toLocaleDateString().replace(/\//g, '-') === date;
+    return this.formatDate(this.calcTime(new Date(), 8)).fdate === date;
   }
 
   //初始化日期
@@ -148,6 +149,7 @@ export default class ALlTeachers extends React.Component {
         : futDate.getDate();
 
       let timeStr = futDate.getFullYear() + "-" + m + "-" + d;
+      console.log(timeStr);
       let dateStr = m + "-" + d;
       //转换时区
 

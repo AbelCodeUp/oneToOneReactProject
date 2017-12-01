@@ -110,14 +110,14 @@ export default class MyClass extends React.Component {
     }
     createLesson(Lessonlist){
         let brr=[]
-        Lessonlist.forEach((item)=>{
+        Lessonlist.forEach((item,index)=>{
             brr.push(
                 // <div className="xjr_note_item">
                 //     <p className="xjr_note_itemName">{item.TypeName}</p>
                 //     <p className="xjr_note_itemVal">{item.Hours}</p>
                 //     <p className="xjr_note_itemTime">{item.CreateTime}</p>
                 // </div>
-                <div className="xjr_note_item">
+                <div className="xjr_note_item" key={ index }>
                     <p className="xjr_note_itemName">{item.TypeName}</p>
                     <div className='xjr_note_right'>
                         <p className="xjr_note_itemVal">{item.Hours}</p>

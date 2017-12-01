@@ -19,6 +19,8 @@ export default class Attention extends React.Component {
       qxState : 0, //取消状态
       isShowGZ: 0 ,  //取消主注弹层
     }
+
+    this.falg = false;
     // 获取我的关注
     this.getTeacherData();
 
@@ -36,10 +38,9 @@ export default class Attention extends React.Component {
     }).then((res) => {
       if (res.data.result == 1) {
 
-        tchDatas = tchDatas.some((el, i) => {
-          return el.TeacherID === tchId;
+        tchDatas = tchDatas.filter((el, i) => {
+          return el.TeacherID !== tchId;
         })
-        console.log(tchDatas);
         this.setState({tchDatas});
 
       }
@@ -61,6 +62,7 @@ export default class Attention extends React.Component {
       if (res.data.result == 1) {
 
         this.setState({tchDatas: res.data.data.AttentionTeachers})
+        this.falg == true;
 
 
       }
@@ -97,7 +99,7 @@ export default class Attention extends React.Component {
           undefined
         }
         {
-          tchDatas.length === 0 ?
+          tchDatas.length === 0 && this.falg ?
           <div className="bxk_no_tch">
               <div className="bxk_no_tch_img">
                   <img src={ require('../images/bxk_no_guanzhu.png') } alt="" />
