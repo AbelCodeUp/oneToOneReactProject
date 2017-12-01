@@ -11,6 +11,9 @@
 a{
   text-decoration: none!important;
 }
+.swiper-pagination-bullet-active{
+  background: #DC2828!important;
+}
 .bxk_header ul{
     overflow: hidden;
     display: flex;
@@ -46,11 +49,14 @@ a{
 }
 .bxk_content{
     margin-top: 1.6rem;
-    background: #fff;
+    /*background: #fff;*/
+}
+.loading{
+  margin:4rem auto;
 }
 .bxk_content .bxk_lesson_teacher_box{
     overflow: hidden;
-    border-bottom: .03rem solid #E8E8E8;
+    /*border-bottom: .03rem solid #E8E8E8;*/
     border-top: .03rem solid #E8E8E8;
 }
 .bxk_content .bxk_lesson_teacher_box .bxk_lesson_t_timebox{
@@ -67,6 +73,7 @@ a{
 .bxk_content .bxk_lesson_teacher_box .bxk_lesson_teacher_item{
     border-bottom: 1px solid #E8E8E8;
     height: 2.13rem;
+    background: #fff;
 
 }
 .bxk_content .bxk_lesson_teacher_box .bxk_lesson_teacher_item:last-of-type(1){
@@ -76,6 +83,7 @@ a{
     overflow: hidden;
     height: 100%;
     padding-top: 0.23rem;
+    padding-left: 0.34rem;
     box-sizing: border-box;
 }
 .bxk_l_teacher_imgbox{
@@ -83,6 +91,10 @@ a{
     height: 1.6rem;
     border: 1px solid #E8E8E8;
     border-radius: 50%;
+    overflow: hidden;
+}
+.bxk_l_teacher_imgbox img{
+  height: 100%;
 }
 .bxk_l_teacher_name{
     font-size: .43rem;

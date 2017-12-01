@@ -3,6 +3,7 @@ import { hashHistory } from 'react-router';
 
 import axios from 'axios';
 import ServerUrl from '../config/server';
+import ReactLoading from 'react-loading';
 
 import { YueKeSureNextOne, QuXiaoGuanZhu, YueKeSureNextTwo } from './TanChuang';
 
@@ -18,6 +19,7 @@ export default class Attention extends React.Component {
       teacerId : 0, //老师iD
       qxState : 0, //取消状态
       isShowGZ: 0 ,  //取消主注弹层
+      isLoading: true
     }
 
     this.falg = false;
@@ -61,7 +63,10 @@ export default class Attention extends React.Component {
     }).then((res) => {
       if (res.data.result == 1) {
 
-        this.setState({tchDatas: res.data.data.AttentionTeachers})
+        this.setState({
+          tchDatas: res.data.data.AttentionTeachers,
+          isLoading: false
+        })
         this.falg == true;
 
 
@@ -73,81 +78,94 @@ export default class Attention extends React.Component {
     const {
       tchDatas,
       isShowGZ,
-      teacerId
+      teacerId,
+      isLoading
     } = this.state;
     return (
       <div>
-        {/* 取消关注弹窗 */}
         {
-          isShowGZ ?
-          <QuXiaoGuanZhu
-            QuXiaoGuanZhu1={ (id,state)=>{
-
-              this.sendAttention( teacerId, 0);
-              this.setState({
-                isShowGZ:0
-              })
-            }}
-            QuXiaoGuanZhu2={ ()=>{ //取消
-              this.setState({
-                isShowGZ:0
-              })
-            }}
-
-           />
+          isLoading ?
+          <ReactLoading
+            type={'spinningBubbles'}
+            color={'#b6b6b6'}
+            height='1.3rem'
+            width='1.3rem' className='loading'/>
           :
-          undefined
-        }
-        {
-          tchDatas.length === 0 && this.falg ?
-          <div className="bxk_no_tch">
-              <div className="bxk_no_tch_img">
-                  <img src={ require('../images/bxk_no_guanzhu.png') } alt="" />
-              </div>
-              <div className="bxk_no_msg">
-                  您还没有关注任何外教，赶紧去关注一下吧！
-              </div>
-          </div>
-          :
-          <ul className="bxk_lesson_teacher_box">
+          <div style={ {background: '#fff'} }>
             {
-              tchDatas.map((el) => {
-                return (<li className="bxk_lesson_teacher_item" key={el.TeacherID}>
-                  <div className="bxk_l_teacher_itembox">
-                    <div className="bxk_l_teacher_imgbox fl" >
-                      <img src={el.HeaderImage} alt=""/>
-                    </div>
-                    {/* <!--
-                                    未关注 ：bxk_guanzhu_active
-                                --> */
-                    }
-                    <div className="bxk_l_teacher_msg fl">
-                      <div className="bxk_l_teacher_name">
-                        {el.EnglishName}
+            isShowGZ ?
+            <QuXiaoGuanZhu
+              QuXiaoGuanZhu1={ (id,state)=>{
+
+                this.sendAttention( teacerId, 0);
+                this.setState({
+                  isShowGZ:0
+                })
+              }}
+              QuXiaoGuanZhu2={ ()=>{ //取消
+                this.setState({
+                  isShowGZ:0
+                })
+              }}
+
+             />
+            :
+            undefined
+          }
+          {
+            tchDatas.length === 0 && this.falg ?
+            <div className="bxk_no_tch">
+                <div className="bxk_no_tch_img">
+                    <img src={ require('../images/bxk_no_guanzhu.png') } alt="" />
+                </div>
+                <div className="bxk_no_msg">
+                    您还没有关注任何外教，赶紧去关注一下吧！
+                </div>
+            </div>
+            :
+            <ul className="bxk_lesson_teacher_box">
+              {
+                tchDatas.map((el) => {
+                  return (<li className="bxk_lesson_teacher_item" key={el.TeacherID}>
+                    <div className="bxk_l_teacher_itembox">
+                      <div className="bxk_l_teacher_imgbox fl" >
+                        <img src={el.HeaderImage} alt=""/>
                       </div>
-                      <div className="bxk_l_teacher_guanzhu_buttion bxk_guanzhu_active"
-                          onClick={() => {
-                                this.setState({
-                                  isShowGZ : 1,
-                                  teacerId: el.TeacherID
-                                })
-                              }}>
-                          已关注
+                      {/* <!--
+                                      未关注 ：bxk_guanzhu_active
+                                  --> */
+                      }
+                      <div className="bxk_l_teacher_msg fl">
+                        <div className="bxk_l_teacher_name">
+                          {el.EnglishName}
+                        </div>
+                        <div className="bxk_l_teacher_guanzhu_buttion bxk_guanzhu_active"
+                            onClick={() => {
+                                  this.setState({
+                                    isShowGZ : 1,
+                                    teacerId: el.TeacherID
+                                  })
+                                }}>
+                            已关注
+                        </div>
+
                       </div>
-
+                      <div className="bxk_l_teacher_yuyue fr">
+                        <a href="javascript:;" onClick={() => { this.goTchInfo( el.TeacherID )}}>
+                          预约
+                        </a>
+                      </div>
                     </div>
-                    <div className="bxk_l_teacher_yuyue fr">
-                      <a href="javascript:;" onClick={() => { this.goTchInfo( el.TeacherID )}}>
-                        预约
-                      </a>
-                    </div>
-                  </div>
-                </li>)
-              })
+                  </li>)
+                })
 
-            }
+              }
 
-          </ul>
+            </ul>
+          }
+          </div>
+
+
         }
 
       </div>

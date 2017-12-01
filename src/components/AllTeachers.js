@@ -4,6 +4,8 @@ import {Link, hashHistory} from 'react-router';
 import axios from 'axios';
 import ServerUrl from '../config/server';
 
+import ReactLoading from 'react-loading';
+
 import Swiper from 'swiper';
 
 // 弹层组件
@@ -21,15 +23,15 @@ export default class ALlTeachers extends React.Component {
 
     this.state = {
       isShowOrder: false, //约课窗口
-      timeDatas: this.dataArrs(), //日期
+      timeDatas: [], //日期
       timeArrs: { //时间数据初始化
         sw: [],
         xw: [],
         ws: []
       }, //时间
       activeTime: '', //选择的时间
-      activeDate: this.dataArrs()[0][0].time, //选择的日期
-      activeWeek: this.dataArrs()[0][0].weekStr, //当前选择周
+      activeDate: '', //选择的日期
+      activeWeek: '', //当前选择周
       tchDatas: [], //保存老师数据
       sysTime: {
         date: '',
@@ -40,6 +42,7 @@ export default class ALlTeachers extends React.Component {
       qxState : 0, //取消状态
       isShowGZ: 0 ,  //取消主注弹层
       isSuccess: 0, //约课成功
+      isLoading: true
 
     }
 
@@ -58,8 +61,12 @@ export default class ALlTeachers extends React.Component {
     axios.get(ServerUrl.GetSystemTime, {}).then((res) => {
       if (res.data.result == 1) {
         sysTime = this.formatDate(res.data.data.Time * 1000);
-        this.setState({sysTime})
+        this.setState({
+          sysTime,
+          dataArrs: this.dataArrs(res.data.data.Time * 1000 )
+        })
         this.getLessonTime(sysTime.date.split(' ')[0]);
+
       }
     })
   }
@@ -122,8 +129,8 @@ export default class ALlTeachers extends React.Component {
   }
 
   //初始化日期
-  dataArrs = () => {
-    let nowDate = new Date();
+  dataArrs = (date) => {
+    let nowDate = new Date(date);
     let arrays = [[], []];
     const weekArr = [
       '周日',
@@ -181,6 +188,11 @@ export default class ALlTeachers extends React.Component {
         });
       }
     }
+    this.setState({
+      activeDate: arrays[0][0].time,
+      activeWeek: arrays[0][0].weekStr,
+      timeDatas: arrays
+    })
     return arrays;
   }
 
@@ -236,6 +248,7 @@ export default class ALlTeachers extends React.Component {
       },
       activeTime: time
     })
+    this.getTeacherData();
 
   }
 
@@ -274,7 +287,7 @@ export default class ALlTeachers extends React.Component {
     oDate = `${activeDate} ${activeTime}`;
     this.setState({isShowOrder: false})
     // 初始化当前时间老师列表
-    this.getTeacherData();
+    // this.getTeacherData();
 
   }
 
@@ -290,7 +303,7 @@ export default class ALlTeachers extends React.Component {
     }).then((res) => {
       if (res.data.result == 1) {
         let serverData = res.data.data;
-        let isFirstDate = true;
+        var isFirstDate = true;
         for (let i = 0, len = serverData.length; i < len; i++) {
           var oItems = serverData[i];
           for (let j = 0, slen = oItems.length; j < slen; j++) {
@@ -298,7 +311,11 @@ export default class ALlTeachers extends React.Component {
             if (isFirstDate && item.Status == 1) {
               item.isSelect = true;
               isFirstDate = false;
+
               this.setState({activeTime: item.Time})
+
+              this.getTeacherData();  //首次加载老师
+
             } else {
               item.isSelect = false;
             }
@@ -332,7 +349,9 @@ export default class ALlTeachers extends React.Component {
     }).then((res) => {
       if (res.data.result == 1) {
 
-        this.setState({tchDatas: res.data.data.Teachers})
+        this.setState({
+          tchDatas: res.data.data.Teachers,
+          isLoading:false})
 
       }
     })
@@ -389,9 +408,10 @@ export default class ALlTeachers extends React.Component {
       teacerId,
       qxState,
       isSuccess, //约课成功
+      isLoading
     } = this.state;
 
-    let aData = `${activeDate.split('-')[1]}-${activeDate.split('-')[2]}`; //当前时间
+    let aData = `${activeDate=== ''? '' : activeDate.split('-')[1]}-${activeDate=== ''?'':activeDate.split('-')[2]}`; //当前时间
 
     console.log(timeArrs);
     console.log(timeDatas);
@@ -448,7 +468,7 @@ export default class ALlTeachers extends React.Component {
 
       <div className="bxk_content">
         <ul className="bxk_lesson_teacher_box">
-          <li className="bxk_lesson_t_timebox" onClick={openOrder}>
+          <li className="bxk_lesson_t_timebox" style={{background:'#fff'}} onClick={openOrder}>
             <div className="bxk_lesson_time">
               {
 
@@ -464,49 +484,62 @@ export default class ALlTeachers extends React.Component {
             </div>
           </li>
           {
-            tchDatas.map((el) => {
-              return (<li className="bxk_lesson_teacher_item" key={el.TeacherID}>
-                <div className="bxk_l_teacher_itembox">
-                  <div className="bxk_l_teacher_imgbox fl" onClick={() => {goTchInfo( el.TeacherID )}}>
-                    <img src={el.HeaderImage} alt=""/>
-                  </div>
-                  {/* <!--
-                                  未关注 ：bxk_guanzhu_active
-                              --> */
-                  }
-                  <div className="bxk_l_teacher_msg fl">
-                    <div className="bxk_l_teacher_name">
-                      {el.EnglishName}
-                    </div>
-                    {
-                      el.IsAttention != 0
-                        ? <div className="bxk_l_teacher_guanzhu_buttion bxk_guanzhu_active"
-                            onClick={() => {
-                                  this.setState({
-                                    isShowGZ : 1,
-                                    teacerId: el.TeacherID
-                                  })
+            isLoading ?
+            <ReactLoading
+              type={'spinningBubbles'}
+              color={'#b6b6b6'}
+              height='1.3rem'
+              width='1.3rem' className='loading'/>
+            :
+            <div>
+              {
+                tchDatas.map((el) => {
+                  return (<li className="bxk_lesson_teacher_item" key={el.TeacherID}>
+                    <div className="bxk_l_teacher_itembox">
+                      <div className="bxk_l_teacher_imgbox fl" onClick={() => {goTchInfo( el.TeacherID )}}>
+                        <img src={el.HeaderImage} alt=""/>
+                      </div>
+                      {/* <!--
+                                      未关注 ：bxk_guanzhu_active
+                                  --> */
+                      }
+                      <div className="bxk_l_teacher_msg fl">
+                        <div className="bxk_l_teacher_name">
+                          {el.EnglishName}
+                        </div>
+                        {
+                          el.IsAttention != 0
+                            ? <div className="bxk_l_teacher_guanzhu_buttion bxk_guanzhu_active"
+                                onClick={() => {
+                                      this.setState({
+                                        isShowGZ : 1,
+                                        teacerId: el.TeacherID
+                                      })
+                                    }}>
+                                已关注
+                              </div>
+                            : <div className="bxk_l_teacher_guanzhu_buttion" onClick={() => {
+                                  sendAttention(el.TeacherID, 1)
                                 }}>
-                            已关注
-                          </div>
-                        : <div className="bxk_l_teacher_guanzhu_buttion" onClick={() => {
-                              sendAttention(el.TeacherID, 1)
-                            }}>
-                            +关注
-                          </div>
-                    }
+                                +关注
+                              </div>
+                        }
 
-                  </div>
-                  <div className="bxk_l_teacher_yuyue fr">
-                    <a href="javascript:;" onClick={ ()=>{ orderedTeacher( el.TeacherID )} }>
-                      预约
-                    </a>
-                  </div>
-                </div>
-              </li>)
-            })
+                      </div>
+                      <div className="bxk_l_teacher_yuyue fr">
+                        <a href="javascript:;" onClick={ ()=>{ orderedTeacher( el.TeacherID )} }>
+                          预约
+                        </a>
+                      </div>
+                    </div>
+                  </li>)
+                })
 
+              }
+            </div>
           }
+
+
 
         </ul>
       </div>
